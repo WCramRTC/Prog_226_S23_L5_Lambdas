@@ -6,6 +6,8 @@
         {
             // Lambdas
             Console.WriteLine("Hello, World!");
-        }
-    }
-}
+        }  // Main
+
+    } // class
+
+} // namespace
