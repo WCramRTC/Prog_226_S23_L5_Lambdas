@@ -1,7 +1,12 @@
-﻿namespace Prog_226_S23_L5_Lambdas
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Xml.Resolvers;
+
+namespace Prog_226_S23_L5_Lambdas
 {
     internal class Program
     {
+        static List<Player> players = new List<Player>();
         //static Action displayThisGlobally = () => Console.WriteLine("Print that");
         ////Field
         //static string _name;
@@ -10,14 +15,97 @@
 
         static void Main(string[] args)
         {
-         
-        
-            // Links
-            //https://www.csharptutorial.net/csharp-tutorial/csharp-lambda-expression/ 
-            //https://www.c-sharpcorner.com/UploadFile/bd6c67/lambda-expressions-in-C-Sharp/
+
+            Preload();
+
+            var playersBelow53 = players // List of Players
+                .FindAll( (y) => y.Hp < 90 && y.Hp >72 ) // Find all characters with hp between 90 and 72
+                .FindAll( x => x.FirstName[0] == 'A'); // Find all Characters with name starting with A
+
+            var player = players.Find(x => x.Hp < 87);
+            var playerLast = players.FindLast(x => x.FirstName == "Bob");
+            Console.WriteLine(playerLast);
+
+            //foreach (Player player1 in playersBelow53)
+            //{
+            //    Console.WriteLine(player1);
+            //}
+
 
         }  // Main
 
+        public static void Preload()
+        {
+
+            string[] firstNames = { "Alice", "Bob", "Charlie", "David", "Emily", "Frank", "Grace", "Haley", "Isaac", "Julia" };
+            string[] lastNames = { "Smith", "Johnson", "Brown", "Garcia", "Jones", "Davis", "Miller", "Wilson", "Moore", "Taylor" };
+            Random rand = new Random();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                string firstName = firstNames[rand.Next(firstNames.Length)];
+                string lastName = lastNames[rand.Next(lastNames.Length)];
+                int hp = rand.Next(50, 101); // generate a random HP between 50 and 100
+
+                Player player = new Player(firstName, lastName, hp);
+                players.Add(player);
+            }
+        }
+
+        public static void Example3()
+        {
+            // Using Lambdas
+            // Created a lambda that generates a list of numbers
+            Func<int, List<int>> listOfNumbers = (count) =>
+            {
+                Random rand = new Random();
+                List<int> temp = new List<int>();
+
+                for (int i = 0; i < count; i++)
+                {
+                    temp.Add(rand.Next(0, 1000));
+                }
+
+                return temp;
+            };
+            // Created a lambda that displays a list of numbers
+            Action<List<int>> displayList = (list) =>
+            {
+                foreach (var item in list)
+                {
+                    Console.WriteLine(item);
+                }
+            };
+
+            List<int> myList = listOfNumbers(15);
+            displayList(myList);
+
+            Console.WriteLine("Found Result-------------------");
+            var findAllGreater = myList.FindAll((x) => x > 500 && x <= 689);
+
+            // ---------------------------------------
+            displayList(findAllGreater);
+
+            Console.WriteLine(findAllGreater);
+
+            //myList.Find();
+        }
+
+        // 1 2 3 4 5 6
+        // FindNumber(list, 3);
+        public static int FindNumber(List<int> list, int numberToBeGreaterThan)
+        {
+            
+            foreach (int num in list)
+            {
+                if (num > numberToBeGreaterThan)
+                {
+                    return num;
+                }
+            }
+
+            return -1;
+        }
 
 
         // Method signature - return type, name, parameters
@@ -29,6 +117,19 @@
             }
         } // ListDisplay()
 
+        public static void VarExample()
+        {
+            // Var is loosely typed
+            var variableName = "35345";
+            var varNum = 3454;
+            var varBool = true;
+            //var varPlayer = new Player();
+
+            Console.WriteLine(variableName.GetType());
+            Console.WriteLine(varNum.GetType());
+            Console.WriteLine(varBool.GetType());
+            //Console.WriteLine(varPlayer.GetType());
+        }
 
         public static int Add(int num1, int num2)
         {
@@ -108,6 +209,11 @@
 
             displayList(findAllGreater);
         }
+
+        // Links
+        //https://www.csharptutorial.net/csharp-tutorial/csharp-lambda-expression/ 
+        //https://www.c-sharpcorner.com/UploadFile/bd6c67/lambda-expressions-in-C-Sharp/
+
 
     } // class
 
